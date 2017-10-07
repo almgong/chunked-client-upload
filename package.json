@@ -1,0 +1,35 @@
+{
+  "name": "chunked-client-upload",
+  "version": "1.0.0",
+  "description": "Client side package for uploading arbitrary blobs to your server. Supports chunking, checksums, and client side encryption.",
+  "main": "dist/index-built.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dist": "babel src/index.js --out-file dist/index-bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almgong/chunked-client-upload.git"
+  },
+  "keywords": [
+    "client-side",
+    "chunked",
+    "upload",
+    "uploader",
+    "blob",
+    "javascript"
+  ],
+  "author": "Allen Gong",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/almgong/chunked-client-upload/issues"
+  },
+  "homepage": "https://github.com/almgong/chunked-client-upload#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
