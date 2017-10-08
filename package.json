@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "dist": "babel src/index.js --out-file dist/index-bundle.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dist": "webpack -p",
+    "test": "mocha --recursive --require babel-core/register"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,12 @@
   },
   "homepage": "https://github.com/almgong/chunked-client-upload#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "mocha": "^4.0.1",
+    "simple-mock": "^0.8.0",
+    "webpack": "^3.6.0"
   }
 }
