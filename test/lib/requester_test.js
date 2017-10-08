@@ -20,5 +20,17 @@ describe('Requester', function() {
 				assert.deepEqual(expectedResponse, response);
 			});
 		});
+
+		it('should return a Blob object when requesting from a non JSON endpoint', function() {
+			// Blobs don't exist natively in node
+			function Blob() {};
+			let expectedResponse = new Blob(); 
+
+			simple.mock(Requester, '_fetch').resolveWith(expectedResponse);
+
+			Requester.get('/non-json-endpoint.fzxk').then((response) => {
+				assert(response instanceof Blob);
+			});
+		});
 	});
 });
