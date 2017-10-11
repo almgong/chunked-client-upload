@@ -70,14 +70,14 @@ class Requester {
 							return response.blob();	// let the user decide what to do otherwise with the blob
 					}
 				} else {
-					reject({ error: response.error() });
+					reject({ error: { message: 'The request was not accepted.' } });
 				}
 			}).then((parsedResponse) => {
 				resolve(parsedResponse);
-			}).catch((error) => {	// if an error is catched, a network related error may have occurred
+			}).catch((err) => {	// if an error is catched, a network related error may have occurred
 				// according to https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Checking_that_the_fetch_was_successful
 				// fetch() returns a TypeError
-				reject({ error: response.error() });
+				reject({ error: { message: err.message} });
 			});
 		});
 	}
