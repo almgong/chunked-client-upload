@@ -10,10 +10,10 @@ class Requester {
 	 * Given an HTTP endpoint, sends a GET request with optional fetch options
 	 * and returns a promise representing the request.
 	 *
-	 * @param endpoint the URL to send the request to
-	 *
-	 * @return a parsed response if the content type is supported, otherwise a Blob instance
-	**/
+	 * @param  { String } endpoint  the URL to send the request to
+	 * @param  { Object } options  	optional fetch options
+	 * @return { Promise }          a Promise object representing the request
+	 */
 	static get(endpoint, options) {
 		options = options || {};
 
@@ -22,25 +22,35 @@ class Requester {
 		return this._fetch(endpoint, options);
 	}
 
-	static post(endpoint, payload, onProgress) {
+	/**
+	 * Given an HTTP endpoint, sends a POST request with optional fetch options
+	 * and returns a promise representing the request.
+	 *
+	 * @param  { String } endpoint	the URL to send the request to
+	 * @param  { Object } options  	optional fetch options (i.e. { body: [post data], ... })
+	 * @return { Promise }					a Promise object representing the request
+	 */
+	static post(endpoint, options) {
+		options = options || {};
 
+		Object.assign(options, { method: 'POST' });
+
+		return this._fetch(endpoint, options);
 	}
 
 	/**
 	 * Used internally to perform a generic fetch request. Great for cases where you
 	 * don't care about progress and just need to send a request and get a response.
 	 *
-	 * @param endpoint the url endpoint to send the request
-	 * @param options an optional hash that one would usually pass to fetch, including
-	 * 				[body, cache, credentials, method, mode, ...]
-	 *
-	 * @return a Promise object that will be resolved with an appropriately parsed object. If
-	 *					the Content-Type is not yet supported, the object resolved will default to an
-	 *					instance of Blob.
-	 *
-	 * usage: this._fetch(endpoint [, options])
-	**/
+	 * @param  {String} endpoint 	the url endpoint to send the request
+	 * @param  {Object} options  	an optional hash that one would usually pass to fetch, including
+	 *                            [body, cache, credentials, method, mode, ...]
+	 * @return {Promise}					Promise object that will be resolved with an appropriately parsed object. If
+	 *					                          the Content-Type is not yet supported, the object resolved will default to an
+	 *					                          instance of Blob.
+	 */
 	static _fetch(endpoint, options) {
+		// defaults
 		const fetchOptions = {
 			cache: 'default',
 			method: 'GET',
@@ -57,13 +67,17 @@ class Requester {
 						case CONTENT_TYPE_JSON:
 							return response.json();
 						default:
-							return response.blob();	// let the user decide what to do otherwise
+							return response.blob();	// let the user decide what to do otherwise with the blob
 					}
 				} else {
 					reject({ error: response.error() });
 				}
 			}).then((parsedResponse) => {
 				resolve(parsedResponse);
+			}).catch((error) => {	// if an error is catched, a network related error may have occurred
+				// according to https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Checking_that_the_fetch_was_successful
+				// fetch() returns a TypeError
+				reject({ error: response.error() });
 			});
 		});
 	}

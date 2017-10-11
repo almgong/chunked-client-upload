@@ -33,4 +33,27 @@ describe('Requester', function() {
 			});
 		});
 	});
+
+	describe('Requester.post', function() {
+		it('should return a JSON object when POSTing to a JSON endpoint', function() {
+			let expectedResponse = { json: true };
+
+			simple.mock(Requester, '_fetch').resolveWith(expectedResponse);
+
+			Requester.post('/valid-json-endpoint.json', { data: { 'hello': 'world' } }).then((response) => {
+				assert.deepEqual(expectedResponse, response);
+			});
+		});
+
+		it('should return a Blob object when POSTing to a non JSON endpoint', function() {
+				function Blob() {};
+				let expectedResponse = new Blob();
+
+				simple.mock(Requester, '_fetch').resolveWith(expectedResponse);
+
+				Requester.post('/non-json-endpoint.fzxk', { data: { 'hello': 'world' } }).then((response) => {
+					assert.deepEqual(expectedResponse, response);
+				});
+			});
+	});
 });
