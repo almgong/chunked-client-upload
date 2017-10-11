@@ -61,7 +61,6 @@ class Requester {
 
 		return new Promise((resolve, reject) => {
 			fetch(endpoint, fetchOptions).then((response) => {
-
 				if (response.ok) {
 					switch(response.headers.get(CONTENT_TYPE_HEADER_NAME)) {
 						case CONTENT_TYPE_JSON:
