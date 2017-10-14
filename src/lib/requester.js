@@ -42,12 +42,12 @@ class Requester {
 	 * Used internally to perform a generic fetch request. Great for cases where you
 	 * don't care about progress and just need to send a request and get a response.
 	 *
-	 * @param  {String} endpoint 	the url endpoint to send the request
-	 * @param  {Object} options  	an optional hash that one would usually pass to fetch, including
-	 *                            [body, cache, credentials, method, mode, ...]
-	 * @return {Promise}					Promise object that will be resolved with an appropriately parsed object. If
-	 *					                          the Content-Type is not yet supported, the object resolved will default to an
-	 *					                          instance of Blob.
+	 * @param  {String} endpoint 				the url endpoint to send the request
+	 * @param  {Object} options  				an optional hash that one would usually pass to fetch, including
+	 *                               		[body, cache, credentials, method, mode, ...]
+	 * @return {Promise | error Object}	Promise object that will be resolved with an appropriately parsed object. If
+	 *					                        the Content-Type is not yet supported, the object resolved will default to an
+	 *					                        instance of Blob. If an error occurred, an object will be returned with a message.
 	 */
 	static _fetch(endpoint, options) {
 		// defaults
@@ -62,8 +62,10 @@ class Requester {
 		return new Promise((resolve, reject) => {
 			fetch(endpoint, fetchOptions).then((response) => {
 				if (response.ok) {
-					switch(response.headers.get(CONTENT_TYPE_HEADER_NAME)) {
-						case CONTENT_TYPE_JSON:
+					let contentType = response.headers.get(CONTENT_TYPE_HEADER_NAME).toLowerCase();
+
+					switch(true) {
+						case contentType.includes(CONTENT_TYPE_JSON):
 							return response.json();
 						default:
 							return response.blob();	// let the user decide what to do otherwise with the blob
