@@ -1,5 +1,3 @@
-import 'babel-polyfill';	// for those delicious Promises and the like
-
 import assert from 'assert';
 import simple from 'simple-mock';
 import Requester from '../../src/lib/requester';
@@ -10,6 +8,10 @@ import Requester from '../../src/lib/requester';
 **/
 
 describe('Requester', function() {
+	afterEach(function() {
+    simple.restore();	// restores state of objects
+  });
+
 	describe('Requester.get', function() {
 		it('should return a JSON object when requesting from a JSON endpoint', function() {
 			let expectedResponse = { json: true }; 
