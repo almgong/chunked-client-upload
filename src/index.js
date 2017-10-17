@@ -1,8 +1,7 @@
-import Chunker from './lib/chunker';
-import Requester from './lib/requester';
+import ChunkManager from './lib/chunk_manager';
 
 /**
- * Service object for uploading arbitrary blobs to a series of defined endpoints.
+ * Service object for uploading arbitrary blobs to a specified endpoint.
  *
  * TODO: documentation on usage.
 **/
@@ -12,13 +11,9 @@ class ChunkedClientUploader {
 		this._uploadEndpoint = options.uploadEndpoint;
 	}
 
-	// public
-
-	hi() {
-		alert('hi');
+	upload(Blob) {
+		
 	}
-
-	// private
 
 	/** 
 	 * validates arguments passed in constructor
