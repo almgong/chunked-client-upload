@@ -4,7 +4,8 @@ let webpack = require('webpack');
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: './dist/index-bundle.js'
+    filename: './dist/index-bundle.js',
+    libraryTarget: 'umd'
   },
   module: {
   rules: [

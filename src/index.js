@@ -1,6 +1,5 @@
-import ChunkManager from './lib/chunk_manager';
-
 /**
  * Stub
  */
-export default ChunkManager;
+// export { default } from './lib/chunk_manager';
+module.exports = require('./lib/chunk_manager');

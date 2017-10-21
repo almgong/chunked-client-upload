@@ -30,11 +30,12 @@ export default class UploadWorker {
    */
   perform(identifier, data, endpoint, token, onSuccess, onFailure) {
     Requester.post(endpoint, {
-      body: { 
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
         chunkNumber: identifier,
         data: data,
         token: token
-      }
+      })
     }).then((responseData) => {
       onSuccess(identifier);
       this._reset();

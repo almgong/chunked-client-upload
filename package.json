@@ -2,7 +2,7 @@
   "name": "chunked-client-upload",
   "version": "1.0.0",
   "description": "Client side package for uploading arbitrary blobs to your server. Supports chunking, checksums, and client side encryption.",
-  "main": "dist/index-built.js",
+  "main": "dist/index-bundle.js",
   "directories": {
     "test": "test"
   },
@@ -21,6 +21,9 @@
     "uploader",
     "blob",
     "javascript"
+  ],
+  "files": [
+    "dist/index-bundle.js"
   ],
   "author": "Allen Gong",
   "license": "Apache-2.0",

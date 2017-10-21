@@ -16,8 +16,10 @@ export default class UploadManager {
    * @return { UploadManager }              an instance of UploadManager
    */
   constructor(options) {
-    if (!options.endpoint) {
-      throw new Error('Must specify an endpoint to upload data to');
+    options = options || {};
+
+    if (!options.endpoint || !options.token) {
+      throw new Error('Must specify an endpoint and/or upload token');
     }
 
     // possible options and their defaults
@@ -34,7 +36,7 @@ export default class UploadManager {
 
       // worker options
       maxConcurrentConnections: 3,  // maximum number of active workers at any time
-      maxRetriesPerConnection: 3    // maximum number of retry attempts on request failure per worker
+      maxRetriesPerConnection: 3,   // maximum number of retry attempts on request failure per worker
 
       // required options!
       endpoint: null,   // URL to POST
@@ -127,7 +129,7 @@ export default class UploadManager {
     for (let i = 0; i < this._options.maxConcurrentConnections; i++) {
       workers.push(new UploadWorker({
           maxAttempts: this._options.maxRetriesPerConnection 
-        });
+        })
       );
     }
 
