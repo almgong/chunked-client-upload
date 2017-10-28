@@ -16,7 +16,7 @@ describe('Chunker', function() {
 		it('should be able to construct a default Chunker without options', function() {
 			// hooray for ducktyping
 			let blob = simple.stub();
-			simple.mock(blob, 'size').returnWith(null);
+			simple.mock(blob, 'size', 1);
 			simple.mock(blob, 'slice').returnWith(null);
 
 			new Chunker(blob);
@@ -24,7 +24,7 @@ describe('Chunker', function() {
 
 		it('should be able to construct a Chunker with options', function() {
 			let blob = simple.stub();
-			simple.mock(blob, 'size').returnWith(null);
+			simple.mock(blob, 'size', 1);
 			simple.mock(blob, 'slice').returnWith(null);
 
 			new Chunker(blob, {});
@@ -44,7 +44,7 @@ describe('Chunker', function() {
 
 		it('throws Error if constructing a Chunker with invalid chunkSize option', function() {
 			let blob = simple.stub();
-			simple.mock(blob, 'size').returnWith(null);
+			simple.mock(blob, 'size', 1);
 			simple.mock(blob, 'slice').returnWith(null);
 
 			assert.throws(
@@ -73,7 +73,7 @@ describe('Chunker', function() {
 	describe('#numChunksNeeded', function() {
 		it('should return the correct number of chunks needed to completely chunk the blob, default chunkSize', function() {
 			let blob = simple.stub();
-			simple.mock(blob, 'size').returnWith(10000000);
+			simple.mock(blob, 'size', 10000000);
 			simple.mock(blob, 'slice').returnWith(null);
 
 			assert.equal(new Chunker(blob).numChunksNeeded(), 10);
@@ -81,7 +81,7 @@ describe('Chunker', function() {
 
 		it('should return the correct number of chunks needed to completely chunk the blob, specified chunkSize', function() {
 			let blob = simple.stub();
-			simple.mock(blob, 'size').returnWith(27);
+			simple.mock(blob, 'size', 27);
 			simple.mock(blob, 'slice').returnWith(null);
 
 			assert.equal(new Chunker(blob, { chunkSize: 5 }).numChunksNeeded(), 6);
@@ -92,12 +92,12 @@ describe('Chunker', function() {
 		it('should return all chunks by iteratively calling next', function() {
 			let blobData = "abcdefg";
 			let blob = simple.stub();
-			simple.mock(blob, 'size').callFn(() => { return blobData.length; });
+			simple.mock(blob, 'size', blobData.length);
 			simple.mock(blob, 'slice').callFn((start, end) => { 
 				let chunkedBlob = simple.stub();
 				let chunkedData = blobData.slice(start, end);
 
-				simple.mock(chunkedBlob, 'size').callFn(() => { return chunkedData.length; });
+				simple.mock(chunkedBlob, 'size', chunkedData.length);
 				simple.mock(chunkedBlob, 'data').returnWith(chunkedData);	// not a real Blob method, for testing only
 
 				return chunkedBlob;
@@ -122,12 +122,12 @@ describe('Chunker', function() {
 		it('should return randomly accessed chunks at a certain index', function() {
 			let blobData = "abcdefg";
 			let blob = simple.stub();
-			simple.mock(blob, 'size').callFn(() => { return blobData.length; });
+			simple.mock(blob, 'size', blobData.length);
 			simple.mock(blob, 'slice').callFn((start, end) => { 
 				let chunkedBlob = simple.stub();
 				let chunkedData = blobData.slice(start, end);
 
-				simple.mock(chunkedBlob, 'size').callFn(() => { return chunkedData.length; });
+				simple.mock(chunkedBlob, 'size', chunkedData.length);
 				simple.mock(chunkedBlob, 'data').returnWith(chunkedData);	// not a real Blob method, for testing only
 
 				return chunkedBlob;
@@ -147,12 +147,12 @@ describe('Chunker', function() {
 		it('should return null if chunk number is out of range', function() {
 			let blobData = "abcdefg";
 			let blob = simple.stub();
-			simple.mock(blob, 'size').callFn(() => { return blobData.length; });
+			simple.mock(blob, 'size', blobData.length);
 			simple.mock(blob, 'slice').callFn((start, end) => { 
 				let chunkedBlob = simple.stub();
 				let chunkedData = blobData.slice(start, end);
 
-				simple.mock(chunkedBlob, 'size').callFn(() => { return chunkedData.length; });
+				simple.mock(chunkedBlob, 'size', chunkedData.length);
 				simple.mock(chunkedBlob, 'data').returnWith(chunkedData);	// not a real Blob method, for testing only
 
 				return chunkedBlob;

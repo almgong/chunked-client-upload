@@ -11,7 +11,7 @@ export default class Chunker {
    * @return { Chunker }          a Chunker instance
    */
   constructor(blob, options) {
-    if(!blob || typeof blob.slice != 'function' || typeof blob.size != 'function') {
+    if(!blob || typeof blob.slice != 'function' || typeof blob.size != 'number') {
       throw new Error('Chunker requires a Blob like object');
     } else if (options && !this._validateOptions(options)) {
       throw new Error('Invalid options');
@@ -33,7 +33,7 @@ export default class Chunker {
    * @return { Integer } integer number of chunks
    */
   numChunksNeeded() {
-    return Math.ceil(this._blob.size() / this._options.chunkSize);
+    return Math.ceil(this._blob.size / this._options.chunkSize);
   }
 
   /**
@@ -56,7 +56,7 @@ export default class Chunker {
     let nextChunkStart = index * this._options.chunkSize;
     let chunk = this._blob.slice(nextChunkStart, nextChunkStart + this._options.chunkSize);
 
-    return (chunk.size() > 0) ? chunk : null
+    return (chunk.size > 0) ? chunk : null
   }
 
   /**
